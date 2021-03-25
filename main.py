@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from wiki import wikitools
+from firebase import db
 
 app = Flask(__name__)
 
+db.init_db_client()
 
 @app.route('/')
 def index():
