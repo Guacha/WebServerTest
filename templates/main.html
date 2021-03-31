@@ -1,13 +1,13 @@
 {% extends "index_template.html" %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid pt-5">
 		<div class="row">
 				<h1 class="mt-5">Ubícate con tus amigos, y empieza a jugar</h1>
 				<h3>Empieza en un articulo aleatorio de la Wikipedia y llega a otro en la menor cantidad de clicks y tiempo posible!</h3>
-				<h3>¿Crees que puedes llegar de <b><a href="{{ inicio_url }}">{{ inicio }}</a></b> a <b><a href="{{ final_url }}">{{ final }}</a></b> en pocos clicks?</h3>
+				<h3>¿Crees que puedes llegar de <b><a id="inicio" href=""></a></b> a <b><a id="final" href=""></a></b> en pocos clicks?</h3>
 				<h5>Inicia una nueva partida, o unete a una partida existente, y consigue el record de tiempo!</h5>
-				<a type="button" class="btn btn-warning" href="/ingame">Vamos a jugar!</a>
+				<a type="button" class="btn btn-warning" href="/startgame">Vamos a jugar!</a>
 		</div>
 	</div>
 	

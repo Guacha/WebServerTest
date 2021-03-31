@@ -1,0 +1,23 @@
+{% extends "index_template.html" %}
+
+{% block content %}
+
+	<div class="container-fluid pt-5">
+		<div class="row">
+				
+	
+
+		{% if hasname %}
+
+			<h1 class="mt-5">Felicidades, has ganado!</h1>
+					<h3>Te ha tomado:</h3>
+					<h2>{{ clicks }} clicks</h2>
+					<h2>{{ min }} minutos, {{ segs }} segundos, {{ ms }} milisegundos</h2>
+					<h3></h3>
+
+		{% endif %}
+
+		</div>	
+	</div>
+
+{% endblock content %}
