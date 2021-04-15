@@ -15,12 +15,12 @@ def index():
 
 	return render_template("main.html", inicio=start_title, inicio_url=start_url, final=end_title, final_url=end_url)
 
-
-@app.route("/test")
-def textingxd():
-	tit, cont, url = wikitools.get_art("https://es.wikipedia.org/wiki/Ibai_Llanos", full_url=True)
-	
-	return render_template("game_template.html", article_data=wikitools.scrape_article(cont), title=tit)
+if os.environ.get('DEV', False):
+	@app.route("/test")
+	def textingxd():
+		tit, cont, url = wikitools.get_art("https://es.wikipedia.org/wiki/Ibai_Llanos", full_url=True)
+		
+		return render_template("game_template.html", article_data=wikitools.scrape_article(cont), title=tit)
 
 
 @app.route("/startgame")
@@ -65,7 +65,6 @@ def game_attempts(game_id):
 def click_on_article():
 	link = request.form["link"]
 	title, cont, url = wikitools.get_art(link)
-	url = url.split(".org")[1]
 	code = request.form["gamecode"][1:-7]
 	clicks = request.form["current_clicks"]
 	timer = {
@@ -78,6 +77,7 @@ def click_on_article():
 		attempt_code = db.generate_attempt(code, clicks, timer)
 		return {"wonnered": True, "url": f"{url_for('wonnered', attempt_code=attempt_code, game_id=code)}"}
 		
+	url = url.split(".org")[1]
 	cont = wikitools.scrape_article(cont)
 	return jsonify({"title": title, "cont": cont, "url": url, "wonnered": False})
 
