@@ -3,17 +3,41 @@
 {% block content %}
 
 	<div class="container-fluid pt-5">
-		<div class="row">
+		<div class="row justify-content-center">
 				
 	
 
-		{% if hasname %}
+		{% if name %}
+					<h1 class="mt-5 text-center">Felicidades {{ name }}, has ganado!</h1>
+					<h3 class="text-center">Te ha tomado:</h3>
+					<h2 class="text-center">{{ clicks }} clicks</h2>
+					<h2 class="text-center">{{ min }} minutos, {{ segs }} segundos, {{ ms }} milisegundos</h2>
+					<div class="row mt-5">
+						<div class="col text-center">
+							<h3>¿Crees que puedes mejorar?</h3>
+							<a href="{{ url_for('ingame', game_id=game) }}" type="button" class="btn btn-warning">Jugar Nuevamente</a>
+						</div>
+						<div class="col text-center">
+							<h3>¿Quieres ver la tabla?</h3>
+							<a href="{{ url_for('game_attempts', game_id=game) }}" type="button" class="btn btn-warning">Ver puntajes</a>
+						</div>
+					</div>		
 
-			<h1 class="mt-5">Felicidades, has ganado!</h1>
-					<h3>Te ha tomado:</h3>
-					<h2>{{ clicks }} clicks</h2>
-					<h2>{{ min }} minutos, {{ segs }} segundos, {{ ms }} milisegundos</h2>
-					<h3></h3>
+		{% else %}
+
+			<h1 class="mt-5 text-center">Felicidades, has ganado!</h1>
+			<h3 class="text-center">Te ha tomado:</h3>
+			<h2 class="text-center">{{ clicks }} clicks</h2>
+			<h2 class="text-center">{{ min }} minutos, {{ segs }} segundos, {{ ms }} milisegundos</h2>
+			<form action="" method="POST">
+				<div class="row text-center mt-5">
+					<div class="col text-center">
+						<h3>Ingresa tu nombre </h3>
+						<input class="form-control form-control-lg" type="text" placeholder="Ingresa tu nombre" name="username">
+						<button class="btn btn-warning mt-2 text-center" type="submit" style="width:60%;">Listo!</button>
+					</div>
+				</div>
+			</form>
 
 		{% endif %}
 

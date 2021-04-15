@@ -3,7 +3,7 @@
 {% block content %}
 	<main role="main" class="container-fluid pt-5">
 		<div class="row">
-			<div class="col border">
+			<div class="col border" id="newGameRow">
 				<h1 class="mt-5 text-center">Crea una nueva partida</h1>
 				<h4 class="text-center">Inicia una nueva partida e invita a tus amigos!</h4>
 				<h5 class="text-center">Genera un recorrido para tu partida</h5>
@@ -49,13 +49,43 @@
 						</a>	
 					</div>
 					<div id="codeHelp" class="form-text">
-						Comparte este código con tus amigos!
+						Comparte este enlace con tus amigos!
 					</div>
 				</div>
 			</div>
-			<div class="col border mb-3">
+			<div class="col border">
 				<h1 class="mt-5 text-center">Únete a una partida existente</h1>
-				<h1 class="mt-5 text-center">TBD</h1>
+				<h4 class="text-center">Únete a una partida creda y juega contra tus amigos</h4>
+				<h5 class="text-center">Ingresa un código de partida</h5>
+				<div class="input-group mb-3 mt-3">
+					<input type="text" class="form-control form-control-lg" placeholder="Código de partida" id="searchCodeArea" aria-describedby="searchButton">
+					<button class="btn btn-outline-success" type="button" id="searchButton">
+						<i class="bi bi-search"></i>
+					</button>
+					<div class="invalid-feedback">Esa partida no existe, revisa el código</div>
+				</div>
+				<div class="row mb-3 text-center">
+					<div class="col-5">
+						<h4 id="inviteSrc">
+							N/A
+						</h4>
+					</div>
+					<div class="col-2">
+						<h4>
+							<i class="bi bi-arrow-right"></i>
+						</h4>
+					</div>
+					<div class="col-5">
+						<h4 id="inviteDest">
+							N/A
+						</h4>
+					</div>
+				</div>
+				<div class="row text-center">
+					<div class="col text-center">
+						<a type="button" class="btn btn-info btn-lg text-center disabled" style="width:60%" id="startInviteButton">Comenzar partida!</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</main>
@@ -63,4 +93,22 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/pregame.js') }}"></script>
+
+<script>
+	{% if invite %}
+		$("#newGameRow").css("opacity", "40%")
+		$("#lockInButton").prop("disabled", true);
+		$("#swapButton").prop("disabled", true);
+		$(".shuffleButton").prop("disabled", true);
+		$("#start").val("N/A")
+		$("#end").val("N/A")
+		$("#searchCodeArea").val("{{invite}}")
+		getGame("{{invite}}")
+	{% else %}
+		$(document).ready(function() {
+			shuffleArticle($("#start"), $("#sURL"));
+			shuffleArticle($("#end"), $("#eURL"));
+		});
+	{% endif %}
+</script>
 {% endblock scripts %}

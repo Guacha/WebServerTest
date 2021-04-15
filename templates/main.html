@@ -1,13 +1,16 @@
 {% extends "index_template.html" %}
 
 {% block content %}
-	<div class="container-fluid pt-5">
-		<div class="row">
-				<h1 class="mt-5">Ubícate con tus amigos, y empieza a jugar</h1>
-				<h3>Empieza en un articulo aleatorio de la Wikipedia y llega a otro en la menor cantidad de clicks y tiempo posible!</h3>
-				<h3>¿Crees que puedes llegar de <b><a id="inicio" href=""></a></b> a <b><a id="final" href=""></a></b> en pocos clicks?</h3>
-				<h5>Inicia una nueva partida, o unete a una partida existente, y consigue el record de tiempo!</h5>
-				<a type="button" class="btn btn-warning" href="/startgame">Vamos a jugar!</a>
+	<div class="container-fluid mt-3">
+		<div class="row justify-content-center">
+			<div class="col align-self-center text-center">
+				<h1 class="mt-5 display-1 text-center">Bienvenido a WikiGame</h1>
+				<h1 class="mt-5 text-center">Ubícate con tus amigos, y empieza a jugar</h1>
+				<h3 class="text-center">Empieza en un articulo aleatorio de la Wikipedia y llega a otro en la menor cantidad de clicks y tiempo posible!</h3>
+				<h3 class="text-center">¿Crees que puedes llegar de <b><a id="inicio" href=""></a></b> a <b><a id="final" href=""></a></b> en pocos clicks?</h3>
+				<h5 class="text-center">Inicia una nueva partida, o unete a una partida existente, y consigue el record de tiempo!</h5>
+				<a type="button" class="btn btn-lg btn-warning text-center" href="/startgame" style="width:60%;"><i class="bi bi-controller"></i> Vamos a jugar! <i class="bi bi-controller"></i></a>
+			</div>
 		</div>
 	</div>
 	

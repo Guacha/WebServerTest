@@ -1,8 +1,3 @@
-$(document).ready(function() {
-	shuffleArticle($("#start"), $("#sURL"));
-	shuffleArticle($("#end"), $("#eURL"));
-});
-
 $("#swapButton").on("click", function() {
 	var curr_aux = $("#start").val();
 	var curr_URL_aux = $("#sURL").attr("href");
@@ -27,7 +22,7 @@ $("#lockInButton").click(function() {
 		type: 'POST',
 		success: function(resp) {
 			game_code = resp.code
-			$("#gameCodeField").val(game_code)
+			$("#gameCodeField").val(resp.invite)
 			$("#startButton").attr("href", "/" +  game_code + "/ingame")
 			$("#startButton").prop("disabled", false)
 		}
@@ -57,3 +52,33 @@ function shuffleArticle(field, anchor){
 	
 };
 
+function getGame(game_code) {
+	$("#searchButton").prop("disabled", true);
+	$("#searchCodeArea").prop("disabled", true);
+	$.ajax({
+		url: '/get_game',
+		data: {'code': game_code},
+		type: 'POST',
+		success: function(response) {
+			if (response.exists) {
+				$("#searchCodeArea").removeClass("is-invalid");
+				$("#inviteSrc").text(response.game.start_name)
+				$("#inviteDest").text(response.game.end_name)
+				$("#startInviteButton").removeClass("disabled")
+				$("#startInviteButton").attr("href", response.url)
+			} else {
+				$("#searchButton").prop("disabled", false);
+				$("#searchCodeArea").toggleClass("is-invalid");
+				$("#searchCodeArea").prop("disabled", false);
+			}
+		}
+	})
+};
+
+$("#searchButton").click(function(event) {
+	getGame($("#searchCodeArea").val());
+})
+
+function disableNewGame() {
+
+}

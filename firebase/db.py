@@ -38,8 +38,11 @@ def gen_game(start_name: str, start_url: str, end_name: str, end_url: str):
 	
 def get_game(game_id):
 	global __db
-	game = __db.collection("games").document(game_id).get().to_dict()
-	return game
+	try:
+		game = __db.collection("games").document(game_id).get().to_dict()
+		return game
+	except Exception:
+		return None
 
 def generate_attempt(gamecode, clicks, timer):
 	global __db
@@ -49,3 +52,24 @@ def generate_attempt(gamecode, clicks, timer):
 		"time": timer
 	})
 	return attempt.id
+
+def get_attempt(gamecode, attempt_code):
+	global __db
+	attempt = __db.collection("games").document(gamecode).collection("attempts").document(attempt_code).get().to_dict()
+	return attempt
+
+
+def get_all_attempts(gamecode):
+	global __db
+	query = __db.collection("games").document(gamecode).collection("attempts")\
+		.order_by('clicks')\
+		.order_by('time.m')\
+		.order_by('time.s')\
+		.order_by('time.ms')
+	att_list = [doc.to_dict() for doc in query.stream()]
+	print(att_list)
+	return att_list
+
+
+def set_att_name(gamecode, attempt_code, name):
+	__db.collection("games").document(gamecode).collection("attempts").document(attempt_code).update({"name": name})

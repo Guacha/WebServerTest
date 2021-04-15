@@ -1,30 +1,78 @@
 <head>
 	<meta charset="UTF-8">
 	<title>WikiGame - {{ title }}</title>
+
+	<!-- Bootstrap/Bootstrap-Icons load -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="/w/load.php?lang=es&amp;modules=ext.cite.styles%7Cext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediaBadges%7Cskins.vector.styles.legacy%7Cwikibase.client.init&amp;only=styles&amp;skin=vector">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+	</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
 
-
-
+	<!-- Wikimedia proprietary styles load -->
 	<link rel="stylesheet" href="https://es.wikipedia.org/w/load.php?lang=es&modules=ext.cite.styles%7Cext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediaBadges%7Cskins.vector.styles.legacy%7Cwikibase.client.init&only=styles&skin=vector">
 	<link rel="stylesheet" href="https://es.wikipedia.org/w/load.php?lang=es&modules=site.styles&only=styles&skin=vector"/>
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="color: #212529">
-			<a class="navbar-brand" href="#">WikiGame</a>
-			<span class="navbar-text" id="clicks" style="position: absolute; left:25%">
-				# Clicks: 0
+	<div class="collapse mt-5 fixed-top" id="navbarToggleExternalContent">
+		<div class="bg-dark p-4">
+			<div class="container-fluid">
+				<div class="row text-center">
+					<div class="col">
+						<h1 class="text-light" id="clicks">
+							# Clicks: 0
+						</h1>
+						<h1 class="text-light" id="time">
+							Tiempo: 00:00:00
+						</h1>
+					</div>
+					<div class="col">
+						<button type="button" disabled style="width:35%; height:100%" class="btn btn-warning" id="rewindButton">
+							<h3 class="display-5">
+								<i class="bi bi-skip-start-fill"></i><br>
+							</h3>
+							<h5>
+								Ir atrás
+							</h5>
+						</button>
+						<button type="button" disabled style="width:35%; height:100%" class="btn btn-warning" id="restartButton">
+							<h3 class="display-5">
+								<i class="bi bi-arrow-repeat"></i>
+							</h3>
+							<h5>
+								Reiniciar run
+							</h5>
+						</button>
+					</div>
+					<div class="col">
+							<button type="button" disabled class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width:90%; height:100%;" id="historyButton">
+								<h5 class="display-6">
+									Historial de clicks
+								</h5>
+							</button>
+							<ul class="dropdown-menu" id="historyList">
+								<li><p class="dropdown-item text-muted" href="#">No has hecho click aún</p></li>
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-dark bg-dark fixed-top" style="color: #212529">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+				<p style="font-size:1.3rem">
+					<i class="bi bi-three-dots-vertical"></i>
+					WikiGame
+				<p>
+			</button>
+			<span class="navbar-text" style="font-size:1.1rem">
+				Objetivo: {{ objetivo if objetivo else "Esto es un placeholder, pero aprovecho para mentarle la madre a miguel" }}
 			</span>
-			<span class="navbar-text" id="time" style="position: absolute; left:75%">
-				# Time: 00:00:00
-			</span>
-			<span class="navbar-text" style="position: absolute; right:0">
-				Objetivo: {{ objetivo }}
-			</span>
+  	</div>
 	</nav>
-	<div class="container pt-5" id="page-container">
+	<div class></div>
+	<div class="container" id="page-container" style="padding-top:4rem;">
 		<div class="row">
 			<h1 id="art-title" class="firstHeading">{{ title }}</h1>
 			<div id="art-cont">
@@ -34,7 +82,10 @@
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	
+	<script>
+		var current_url = "{{ url }}"
+		var current_title = "{{ title }}"
+	</script>
 	<script src="{{ url_for('static', filename='js/stopwatch.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/ingame.js') }}"></script>
 

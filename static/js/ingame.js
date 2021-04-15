@@ -1,10 +1,19 @@
 var clicks = 0;
 var stopwatch;
 var loading = false;
-
+var articleHistory = [];
 
 $(document).on("click", "a", function(event) {
-	getLink($(this).attr("href"))
+	var tag = $(this)
+	var text = tag.text().trim();
+	var href = tag.attr("href");
+
+	
+
+	getLink(href);
+	$("#rewindButton").prop("disabled", false);
+	$("#restartButton").prop("disabled", false);
+	$("#historyButton").prop("disabled", false);
 });
 
 $(document).ready(function() {
@@ -12,7 +21,25 @@ $(document).ready(function() {
 	stopwatch.start();
 });
 
-function getLink(href) {
+$("#rewindButton").on("click", function(e) {
+	getLink(articleHistory.pop().href, false);
+	if (articleHistory.length >= 1) {
+		updateHistory();
+	} else {
+		$("#rewindButton").prop("disabled", true);
+		$("#historyButton").prop("disabled", true);
+	};
+	
+});
+
+$("#restartButton").on("click", function(e) {
+	con = confirm("¿Seguro deseas reiniciar esta partida?");
+	if (con) {
+		location.reload();
+	};
+});
+
+function getLink(href, sendToHistory = true) {
 	if (!loading) {
 		if (href.indexOf("/wiki/") != -1) {
 			event.preventDefault()
@@ -31,11 +58,16 @@ function getLink(href) {
 				type: 'POST',
 				success: function(resp) {
 					if (resp.wonnered) {
+						articleHistory.push(href)
 						stopwatch.stop()
 						window.location.replace(resp.url)
 					} else {
-						loadArticle(resp.title, resp.cont)
-						scrollTo(0,0)
+						loadArticle(resp.title, resp.cont);
+						scrollTo(0,0);
+						if (sendToHistory) {
+							toHistory(resp.title, resp.url);
+							updateHistory();
+						}
 					}
 				},
 				error: function(err) {
@@ -49,7 +81,6 @@ function getLink(href) {
 			alert("Este link te sacará de Wikipedia, y es inválido dentro del juego");
 		}
 	}
-	
 }
 
 function loadingAnimation() {
@@ -71,4 +102,22 @@ function loadArticle(title, content) {
 	cont_tag.append(content)
 	$("title").text("WikiGame - " + title)
 	loading = false;
+}
+
+function toHistory(title, href) {
+	historyObject = {
+		'title': current_title,
+		'href': current_url
+	};
+	current_title = title;
+	current_url = href;
+
+	articleHistory.push(historyObject);
+}
+
+function updateHistory() {
+	tag = $("#historyList");
+	tag.empty();
+
+	articleHistory.forEach(link => tag.append(`<li><a class='dropdown-item text-muted' href='${link.href}'>${link.title}</a></li>`))	
 }
